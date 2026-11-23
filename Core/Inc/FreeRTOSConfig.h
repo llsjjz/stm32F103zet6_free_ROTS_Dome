@@ -33,7 +33,7 @@
     ( configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY << (8 - configPRIO_BITS) )
 
 // 任务相关配置
-#define configMAX_PRIORITIES                    (32)               // 最大优先级数
+#define configMAX_PRIORITIES                    (8)               // 最大优先级数
 #define configMINIMAL_STACK_SIZE                ((unsigned short)128)  // 空闲任务栈大小
 #define configMAX_TASK_NAME_LEN                 (16)               // 任务名最大长度
 
@@ -54,8 +54,10 @@
 #define INCLUDE_vTaskDelete                      1
 #define INCLUDE_vTaskSuspend                     1
 
-#define configASSERT( x ) \
-    if( ( x ) == 0 ) { taskDISABLE_INTERRUPTS(); for( ; ; ) ; }
+#ifdef DEBUG
+    #define configASSERT( x ) \
+        if( ( x ) == 0 ) { taskDISABLE_INTERRUPTS(); for( ; ; ) ; }
+#endif
 
 #define xPortPendSVHandler PendSV_Handler
 #define vPortSVCHandler SVC_Handler
